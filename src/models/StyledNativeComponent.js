@@ -9,7 +9,7 @@ import getComponentName from '../utils/getComponentName'
 import determineTheme from '../utils/determineTheme'
 import type { RuleSet, Target } from '../types'
 
-import { CHANNEL_NEXT, CONTEXT_CHANNEL_SHAPE } from './ThemeProvider'
+import { CHANNEL, CONTEXT_CHANNEL_SHAPE } from './ThemeProvider'
 
 export default (constructWithOptions: Function, InlineStyle: Function) => {
   class BaseStyledNativeComponent extends Component {
@@ -29,7 +29,7 @@ export default (constructWithOptions: Function, InlineStyle: Function) => {
 
     unsubscribeFromContext() {
       if (this.unsubscribeId !== -1) {
-        this.context[CHANNEL_NEXT].unsubscribe(this.unsubscribeId)
+        this.context[CHANNEL].unsubscribe(this.unsubscribeId)
       }
     }
 
@@ -61,7 +61,7 @@ export default (constructWithOptions: Function, InlineStyle: Function) => {
       // If there is a theme in the context, subscribe to the event emitter. This
       // is necessary due to pure components blocking context updates, this circumvents
       // that by updating when an event is emitted
-      const styledContext = this.context[CHANNEL_NEXT]
+      const styledContext = this.context[CHANNEL]
       if (styledContext !== undefined) {
         const { subscribe } = styledContext
         this.unsubscribeId = subscribe(nextTheme => {
@@ -185,7 +185,7 @@ export default (constructWithOptions: Function, InlineStyle: Function) => {
       static inlineStyle = inlineStyle
 
       static contextTypes = {
-        [CHANNEL_NEXT]: CONTEXT_CHANNEL_SHAPE,
+        [CHANNEL]: CONTEXT_CHANNEL_SHAPE,
       }
 
       // NOTE: This is so that isStyledComponent passes for the innerRef unwrapping

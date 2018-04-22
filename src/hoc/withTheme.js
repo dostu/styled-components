@@ -3,7 +3,7 @@
 
 import React from 'react'
 import hoistStatics from 'hoist-non-react-statics'
-import { CHANNEL_NEXT, CONTEXT_CHANNEL_SHAPE } from '../models/ThemeProvider'
+import { CHANNEL, CONTEXT_CHANNEL_SHAPE } from '../models/ThemeProvider'
 import _isStyledComponent from '../utils/isStyledComponent'
 import determineTheme from '../utils/determineTheme'
 
@@ -24,7 +24,7 @@ const wrapWithTheme = (Component: ReactClass<any>) => {
     static styledComponentId = 'withTheme'
 
     static contextTypes = {
-      [CHANNEL_NEXT]: CONTEXT_CHANNEL_SHAPE,
+      [CHANNEL]: CONTEXT_CHANNEL_SHAPE,
     }
 
     state: { theme?: ?Object } = {}
@@ -32,7 +32,7 @@ const wrapWithTheme = (Component: ReactClass<any>) => {
 
     componentWillMount() {
       const { defaultProps } = this.constructor
-      const styledContext = this.context[CHANNEL_NEXT]
+      const styledContext = this.context[CHANNEL]
       const themeProp = determineTheme(this.props, undefined, defaultProps)
       if (
         styledContext === undefined &&
@@ -68,7 +68,7 @@ const wrapWithTheme = (Component: ReactClass<any>) => {
 
     componentWillUnmount() {
       if (this.unsubscribeId !== -1) {
-        this.context[CHANNEL_NEXT].unsubscribe(this.unsubscribeId)
+        this.context[CHANNEL].unsubscribe(this.unsubscribeId)
       }
     }
 

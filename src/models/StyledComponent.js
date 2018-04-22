@@ -15,7 +15,7 @@ import escape from '../utils/escape'
 import type { RuleSet, Target } from '../types'
 import { CONTEXT_KEY } from '../constants'
 
-import { CHANNEL_NEXT, CONTEXT_CHANNEL_SHAPE } from './ThemeProvider'
+import { CHANNEL, CONTEXT_CHANNEL_SHAPE } from './ThemeProvider'
 import StyleSheet from './StyleSheet'
 import ServerStyleSheet from './ServerStyleSheet'
 
@@ -69,7 +69,7 @@ export default (ComponentStyle: Function, constructWithOptions: Function) => {
 
     unsubscribeFromContext() {
       if (this.unsubscribeId !== -1) {
-        this.context[CHANNEL_NEXT].unsubscribe(this.unsubscribeId)
+        this.context[CHANNEL].unsubscribe(this.unsubscribeId)
       }
     }
 
@@ -121,7 +121,7 @@ export default (ComponentStyle: Function, constructWithOptions: Function) => {
 
     componentWillMount() {
       const { componentStyle } = this.constructor
-      const styledContext = this.context[CHANNEL_NEXT]
+      const styledContext = this.context[CHANNEL]
 
       // If this is a staticaly-styled component, we don't need to the theme
       // to generate or build styles.
@@ -270,7 +270,7 @@ export default (ComponentStyle: Function, constructWithOptions: Function) => {
 
     class StyledComponent extends ParentComponent {
       static contextTypes = {
-        [CHANNEL_NEXT]: CONTEXT_CHANNEL_SHAPE,
+        [CHANNEL]: CONTEXT_CHANNEL_SHAPE,
         [CONTEXT_KEY]: PropTypes.oneOfType([
           PropTypes.instanceOf(StyleSheet),
           PropTypes.instanceOf(ServerStyleSheet),

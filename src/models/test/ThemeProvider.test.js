@@ -2,7 +2,7 @@
 /* eslint-disable react/no-multi-comp */
 import React from 'react'
 import { shallow, render, mount } from 'enzyme'
-import ThemeProvider, { CHANNEL_NEXT, CONTEXT_CHANNEL_SHAPE  } from '../ThemeProvider'
+import ThemeProvider, { CHANNEL, CONTEXT_CHANNEL_SHAPE  } from '../ThemeProvider'
 
 describe('ThemeProvider', () => {
   it('should not throw an error when no children are passed', () => {
@@ -30,7 +30,7 @@ describe('ThemeProvider', () => {
     // Setup Child
     class Child extends React.Component {
       componentWillMount() {
-        this.context[CHANNEL_NEXT].subscribe(theme => {
+        this.context[CHANNEL].subscribe(theme => {
           expect(theme).toEqual({ ...outerTheme, ...innerTheme })
           done()
         })
@@ -38,7 +38,7 @@ describe('ThemeProvider', () => {
       render() { return null }
     }
     Child.contextTypes = {
-      [CHANNEL_NEXT]: CONTEXT_CHANNEL_SHAPE,
+      [CHANNEL]: CONTEXT_CHANNEL_SHAPE,
     }
 
     render(
@@ -57,7 +57,7 @@ describe('ThemeProvider', () => {
     // Setup Child
     class Child extends React.Component {
       componentWillMount() {
-        this.context[CHANNEL_NEXT].subscribe(theme => {
+        this.context[CHANNEL].subscribe(theme => {
           expect(theme).toEqual({ ...outerestTheme, ...outerTheme, ...innerTheme })
           done()
         })
@@ -65,7 +65,7 @@ describe('ThemeProvider', () => {
       render() { return null }
     }
     Child.contextTypes = {
-      [CHANNEL_NEXT]: CONTEXT_CHANNEL_SHAPE,
+      [CHANNEL]: CONTEXT_CHANNEL_SHAPE,
     }
 
     render(
@@ -88,7 +88,7 @@ describe('ThemeProvider', () => {
     // Setup Child
     class Child extends React.Component {
       componentWillMount() {
-        this.context[CHANNEL_NEXT].subscribe(theme => {
+        this.context[CHANNEL].subscribe(theme => {
           // eslint-disable-next-line react/prop-types
           expect(theme).toEqual(themes[this.props.shouldHaveTheme])
           childRendered++ // eslint-disable-line no-plusplus
@@ -100,7 +100,7 @@ describe('ThemeProvider', () => {
       render() { return null }
     }
     Child.contextTypes = {
-      [CHANNEL_NEXT]: CONTEXT_CHANNEL_SHAPE,
+      [CHANNEL]: CONTEXT_CHANNEL_SHAPE,
     }
 
     render(
@@ -126,7 +126,7 @@ describe('ThemeProvider', () => {
     // Setup Child
     class Child extends React.Component {
       componentWillMount() {
-        this.context[CHANNEL_NEXT].subscribe(receivedTheme => {
+        this.context[CHANNEL].subscribe(receivedTheme => {
           actual = receivedTheme
         })
       }
@@ -135,7 +135,7 @@ describe('ThemeProvider', () => {
       }
     }
     Child.contextTypes = {
-      [CHANNEL_NEXT]: CONTEXT_CHANNEL_SHAPE,
+      [CHANNEL]: CONTEXT_CHANNEL_SHAPE,
     }
 
     const wrapper = mount(

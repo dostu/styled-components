@@ -7,7 +7,7 @@ import createBroadcast from '../utils/create-broadcast'
 import type { Broadcast } from '../utils/create-broadcast'
 
 // NOTE: DO NOT CHANGE, changing this is a semver major change!
-export const CHANNEL_NEXT = `__styled-components__`
+export const CHANNEL = `__styled-components__`
 
 export const CONTEXT_CHANNEL_SHAPE = PropTypes.shape({
   getTheme: PropTypes.func,
@@ -43,7 +43,7 @@ class ThemeProvider extends Component {
   componentWillMount() {
     // If there is a ThemeProvider wrapper anywhere around this theme provider, merge this theme
     // with the outer theme
-    const outerContext = this.context[CHANNEL_NEXT]
+    const outerContext = this.context[CHANNEL]
     if (outerContext !== undefined) {
       this.unsubscribeToOuterId = outerContext.subscribe(theme => {
         this.outerTheme = theme
@@ -60,7 +60,7 @@ class ThemeProvider extends Component {
   getChildContext() {
     return {
       ...this.context,
-      [CHANNEL_NEXT]: {
+      [CHANNEL]: {
         getTheme: this.getTheme,
         subscribe: this.broadcast.subscribe,
         unsubscribe: this.broadcast.unsubscribe,
@@ -76,7 +76,7 @@ class ThemeProvider extends Component {
 
   componentWillUnmount() {
     if (this.unsubscribeToOuterId !== -1) {
-      this.context[CHANNEL_NEXT].unsubscribe(this.unsubscribeToOuterId)
+      this.context[CHANNEL].unsubscribe(this.unsubscribeToOuterId)
     }
   }
 
@@ -120,10 +120,10 @@ class ThemeProvider extends Component {
 }
 
 ThemeProvider.childContextTypes = {
-  [CHANNEL_NEXT]: CONTEXT_CHANNEL_SHAPE,
+  [CHANNEL]: CONTEXT_CHANNEL_SHAPE,
 }
 ThemeProvider.contextTypes = {
-  [CHANNEL_NEXT]: CONTEXT_CHANNEL_SHAPE,
+  [CHANNEL]: CONTEXT_CHANNEL_SHAPE,
 }
 
 export default ThemeProvider
