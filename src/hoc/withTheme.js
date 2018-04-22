@@ -2,13 +2,8 @@
 /* globals ReactClass */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import hoistStatics from 'hoist-non-react-statics'
-import {
-  CHANNEL,
-  CHANNEL_NEXT,
-  CONTEXT_CHANNEL_SHAPE,
-} from '../models/ThemeProvider'
+import { CHANNEL_NEXT, CONTEXT_CHANNEL_SHAPE } from '../models/ThemeProvider'
 import _isStyledComponent from '../utils/isStyledComponent'
 import determineTheme from '../utils/determineTheme'
 
@@ -29,7 +24,6 @@ const wrapWithTheme = (Component: ReactClass<any>) => {
     static styledComponentId = 'withTheme'
 
     static contextTypes = {
-      [CHANNEL]: PropTypes.func,
       [CHANNEL_NEXT]: CONTEXT_CHANNEL_SHAPE,
     }
 

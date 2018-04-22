@@ -5,11 +5,9 @@ import PropTypes from 'prop-types'
 import isPlainObject from 'is-plain-object'
 import createBroadcast from '../utils/create-broadcast'
 import type { Broadcast } from '../utils/create-broadcast'
-import once from '../utils/once'
 
 // NOTE: DO NOT CHANGE, changing this is a semver major change!
-export const CHANNEL = '__styled-components__'
-export const CHANNEL_NEXT = `${CHANNEL}next__`
+export const CHANNEL_NEXT = `__styled-components__`
 
 export const CONTEXT_CHANNEL_SHAPE = PropTypes.shape({
   getTheme: PropTypes.func,
@@ -22,16 +20,6 @@ type ThemeProviderProps = {|
   children?: React$Element<any>,
   theme: Theme | ((outerTheme: Theme) => void),
 |}
-
-let warnChannelDeprecated
-if (process.env.NODE_ENV !== 'production') {
-  warnChannelDeprecated = once(() => {
-    // eslint-disable-next-line no-console
-    console.error(
-      `Warning: Usage of \`context.${CHANNEL}\` as a function is deprecated. It will be replaced with the object on \`.context.${CHANNEL_NEXT}\` in a future version.`
-    )
-  })
-}
 
 const isFunction = test => typeof test === 'function'
 
@@ -76,15 +64,6 @@ class ThemeProvider extends Component {
         getTheme: this.getTheme,
         subscribe: this.broadcast.subscribe,
         unsubscribe: this.broadcast.unsubscribe,
-      },
-      [CHANNEL]: subscriber => {
-        if (process.env.NODE_ENV !== 'production') {
-          warnChannelDeprecated()
-        }
-
-        // Patch the old `subscribe` provide via `CHANNEL` for older clients.
-        const unsubscribeId = this.broadcast.subscribe(subscriber)
-        return () => this.broadcast.unsubscribe(unsubscribeId)
       },
     }
   }
@@ -141,7 +120,6 @@ class ThemeProvider extends Component {
 }
 
 ThemeProvider.childContextTypes = {
-  [CHANNEL]: PropTypes.func, // legacy
   [CHANNEL_NEXT]: CONTEXT_CHANNEL_SHAPE,
 }
 ThemeProvider.contextTypes = {
